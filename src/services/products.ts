@@ -130,6 +130,25 @@ const deleteAProduct = async (id: number) => {
   };
 };
 
+const findTopRatedProducts = async () => {
+  const product = await products.getTopRatedProducts();
+  const apiProduct = product.map((item: Product) => {
+    return {
+      id: item.id,
+      title: item.title,
+      price: item.price,
+      category: item.category,
+      description: item.description,
+      image: item.image,
+      rating: {
+        rate: item.rate,
+        count: item.count,
+      },
+    };
+  });
+  return apiProduct;
+};
+
 export default {
   getAllProducts,
   hasProductOfThisCartegory,
@@ -138,4 +157,5 @@ export default {
   createAProduct,
   updateAProduct,
   deleteAProduct,
+  findTopRatedProducts,
 };

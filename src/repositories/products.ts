@@ -130,6 +130,27 @@ const remove = async (id: number) => {
   }
 };
 
+const getTopRatedProducts = async () => {
+  const products: Product[] = await knexInstance("products")
+    .select(
+      "products.id",
+      "products.title",
+      "products.price",
+      "products.description",
+      "products.title",
+      "categories.name as category",
+      "products.image",
+      "products.rate",
+      "products.count"
+    )
+    .join("categories", "categories.id", "=", "products.category_id")
+    .where("products.rate", ">=", 4)
+    .orderBy("Count ", "desc")
+    .limit(3);
+
+  return products;
+};
+
 export default {
   update,
   indexWithJoin,
@@ -137,4 +158,5 @@ export default {
   selectByIdWithJoin,
   insert,
   remove,
+  getTopRatedProducts,
 };
